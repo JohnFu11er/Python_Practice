@@ -23,10 +23,11 @@ def my_data(data):
     Name, Lat, Long, and Altitude'''
     output = {}
     for sat in data:
-        output[sat['spaceTrack']['OBJECT_NAME']] = {}
-        output[sat['spaceTrack']['OBJECT_NAME']]['latitude'] = sat['latitude']
-        output[sat['spaceTrack']['OBJECT_NAME']]['longitude'] = sat['longitude']
-        output[sat['spaceTrack']['OBJECT_NAME']]['height_km'] = sat['height_km']
+        output[sat['spaceTrack']['OBJECT_NAME']] = {
+            'latitude' : sat['latitude'],
+            'longitude' : sat['longitude'],
+            'height_km' : sat['height_km']
+        }
     return output
 
 
@@ -36,12 +37,14 @@ def main():
     get_starlink_data(my_data(sat_data))
     footer()
 
+
 def header():
     ''' Initializes the .kml file and writes the opening section of the .kml file '''
     with open(filename, mode='wt', newline='') as _iss:
             _iss.write('<?xml version="1.0" encoding="UTF-8"?>\n')
             _iss.write('<kml xmlns="http://www.opengis.net/kml/2.2">\n')
             _iss.write('  <Document>\n')
+
 
 def get_starlink_data(starlink_data):
     ''' Creates a point in the KML file for each
@@ -64,6 +67,7 @@ def footer():
     with open(filename, mode='at', newline='') as _iss:
             _iss.write('  </Document>\n')
             _iss.write('</kml>\n')
+
 
 if __name__ == "__main__":
     main()
